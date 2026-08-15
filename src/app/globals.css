@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* Explicit source root - Tailwind v4 scans these files for class names. */
+@source "../../src";
+
+/*
+ * Theming
+ * -------
+ * Colours live as CSS variables on :root and are exposed to Tailwind through
+ * `@theme inline`, so `bg-surface` resolves to `var(--surface)` at runtime.
+ * That is what makes a light theme a data change, not a refactor: flip
+ * `data-theme` on <html> and every utility follows. The light values below are
+ * already written - the site just never asks for them yet.
+ */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+[data-theme="dark"] {
+  --background: #08090a;
+  --surface: #0d0f11;
+  --surface-raised: #14181b;
+  --border: #1e2225;
+  --border-strong: #2b3136;
+  --foreground: #f2f5f7;
+  --muted: #8b959e;
+  --accent: #22d3ee;
+  --accent-strong: #06b6d4;
+  --accent-contrast: #04191d;
+  --positive: #4ade80;
+
+  --grid-line: rgb(255 255 255 / 0.045);
+  --glow: rgb(34 211 238 / 0.16);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --surface: #fafafa;
+  --surface-raised: #f4f5f6;
+  --border: #e6e8ea;
+  --border-strong: #d5d9dc;
+  --foreground: #0b0d0e;
+  --muted: #5f6a72;
+  --accent: #0891b2;
+  --accent-strong: #0e7490;
+  --accent-contrast: #ffffff;
+  --positive: #15803d;
+
+  --grid-line: rgb(0 0 0 / 0.05);
+  --glow: rgb(8 145 178 / 0.1);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 32px -16px rgb(0 0 0 / 0.18);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-positive: var(--positive);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    /* Keeps the sticky header from covering anchor targets. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--accent) 28%, transparent);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Thin, quiet scrollbar to match the surface palette. */
+  * {
+    scrollbar-color: var(--border-strong) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+/* Soft elevation shared by every raised surface. */
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@layer components {
+  /*
+   * Signature element: the cursor-tracked halo on project cards.
+   * `--pointer-x/y` are written by the card component on pointer move; without
+   * JS (or on touch) the card simply keeps its static hover border.
+   */
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      220px circle at var(--pointer-x, 50%) var(--pointer-y, 0%),
+      color-mix(in oklab, var(--accent) 55%, transparent),
+      transparent 65%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .spotlight:hover::before,
+  .spotlight:focus-within::before {
+    opacity: 1;
+  }
+
+  /* Hero backdrop: a faint engineering grid faded out with a radial mask. */
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 55% at 50% 0%,
+      #000 20%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 20%, transparent 78%);
+  }
+
+  .hero-glow {
+    background: radial-gradient(
+      ellipse 60% 45% at 50% -10%,
+      var(--glow),
+      transparent 70%
+    );
+  }
+
+  /* Hairline that fades at both ends - used as a section divider. */
+  .rule-fade {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border-strong) 25%,
+      var(--border-strong) 75%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
