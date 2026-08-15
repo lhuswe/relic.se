@@ -4,7 +4,7 @@
  */
 export const siteConfig = {
   name: "relic.se",
-  title: "relic.se — Building things. Learning constantly.",
+  title: "relic.se",
   shortDescription: "Personal projects, experiments and tools.",
   description:
     "A collection of personal projects, experiments and tools built to learn, automate and solve problems.",
@@ -13,11 +13,10 @@ export const siteConfig = {
   locale: "en_US",
   author: {
     name: "Linus",
-    email: "lhuswe@gmail.com",
+    email: "lhuswe@relic.se",
   },
   links: {
     github: "https://github.com/lhuswe",
-    linkedin: "https://www.linkedin.com/in/lhuswe/",
   },
   /** Relative to /public. Regenerate with `npm run build` after replacing. */
   ogImage: "/og.png",
