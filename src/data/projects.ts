@@ -29,9 +29,8 @@ export const projects: readonly Project[] = [
     description:
       "One place for physical books and web novels. Tracks chapters, sources and reading pace without turning reading into homework.",
     icon: "book",
-    status: "in-progress",
+    status: "planned",
     category: "Web app",
-    url: "https://example.com",
     featured: true,
     tags: ["nextjs", "supabase"],
     year: 2026,
@@ -42,9 +41,8 @@ export const projects: readonly Project[] = [
     description:
       "Plans multi-day routes in the Swedish mountains: day stages, elevation, huts and a packing list that adapts to the forecast.",
     icon: "mountain",
-    status: "beta",
+    status: "planned",
     category: "Tools",
-    url: "https://example.com",
     tags: ["maps", "gpx"],
     year: 2025,
   },
@@ -54,10 +52,8 @@ export const projects: readonly Project[] = [
     description:
       "A visual editor for SharePoint JSON formatting. Write the layout, preview the card, copy the JSON.",
     icon: "code",
-    status: "live",
+    status: "planned",
     category: "Tools",
-    url: "https://example.com",
-    repo: "https://github.com/lhuswe",
     tags: ["sharepoint", "json"],
     year: 2025,
   },

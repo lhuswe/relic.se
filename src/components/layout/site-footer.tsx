@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -13,7 +13,6 @@ interface FooterLink {
 
 const footerLinks: FooterLink[] = [
   { label: "GitHub", href: siteConfig.links.github, icon: Github, external: true },
-  { label: "LinkedIn", href: siteConfig.links.linkedin, icon: Linkedin, external: true },
   { label: "Contact", href: `mailto:${siteConfig.author.email}`, icon: Mail },
 ];
 
