@@ -1,7 +1,6 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+
+import { cn } from "@/lib/utils";
 
 /** Shared easing. Slow-out curve that reads as "settled", not bouncy. */
 export const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -14,25 +13,24 @@ interface RevealProps {
 }
 
 /**
- * Fades content in the first time it enters the viewport.
- * Respects `prefers-reduced-motion` by rendering the content as-is.
+ * Fades content up once, on load, via a pure-CSS animation (`.reveal` in
+ * globals.css). The element's resting state is fully visible - the fade lives
+ * only in the keyframe - so if the animation is blocked, unsupported or
+ * reduced-motion strips it, the content still shows. It can never get stuck
+ * invisible.
+ *
+ * This replaced a Motion `whileInView` version that started content at
+ * opacity:0 and revealed it only when an IntersectionObserver fired. On tall
+ * displays where the whole page fits without scrolling, that observer could
+ * never fire, leaving the projects section blank on some machines.
  */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const shouldReduceMotion = useReducedMotion();
-
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, delay, ease: EASE_OUT }}
+    <div
+      className={cn("reveal", className)}
+      style={delay ? { animationDelay: `${delay}s` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
