@@ -82,6 +82,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
+        {/*
+          This is a single-screen start page: it should always open on the hero,
+          not wherever you last scrolled to. Browsers default to
+          scrollRestoration "auto", which restores the previous scroll position
+          on reload/reopen (iOS Safari does this aggressively, including from its
+          back/forward cache). Switch to "manual" so a reload starts at the top,
+          and reset scroll on `pageshow` to also cover bfcache restores. An
+          explicit #hash (e.g. #projects) is still honoured. Runs before paint,
+          inline, so there is no jump.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if('scrollRestoration' in history){history.scrollRestoration='manual';}" +
+              "window.addEventListener('pageshow',function(){if(!location.hash){window.scrollTo(0,0);}});",
+          }}
+        />
         <a
           href="#main"
           className="sr-only rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100]"
