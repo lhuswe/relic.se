@@ -24,6 +24,20 @@ import type { Project } from "@/types/project";
  */
 export const projects: readonly Project[] = [
   {
+    slug: "relic-cal",
+    name: "Enheten för schemalagd verksamhet",
+    description:
+      "Swedish deadlines as a calendar feed you subscribe to: tax returns, ISK measurement dates, tyre changes. Dates are computed from rules rather than hardcoded, so the feed stays correct year after year.",
+    icon: "calendar",
+    status: "live",
+    category: "Tools",
+    url: "https://cal.relic.se",
+    repo: "https://github.com/lhuswe/relic-cal",
+    featured: true,
+    tags: ["ical", "supabase", "react"],
+    year: 2026,
+  },
+  {
     slug: "example-reading-log",
     name: "Reading Log",
     description:
@@ -31,7 +45,6 @@ export const projects: readonly Project[] = [
     icon: "book",
     status: "planned",
     category: "Web app",
-    featured: true,
     tags: ["nextjs", "supabase"],
     year: 2026,
   },
